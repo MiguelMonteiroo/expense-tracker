@@ -48,7 +48,7 @@ const User = sequelize.define(
     },
   },
   {
-    tableName: "users", // <-- unless you really want 'transactions'
+    tableName: "users",
   }
 );
 

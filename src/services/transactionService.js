@@ -1,11 +1,15 @@
 import { Transaction } from '../models/index.js';
+import { TransactionDTO } from './dtos/transactionDTO.js';
 
 async function getAllTransactions(userId, category){
     const where = {userId}
     if(category){
         where.category = category;
     }
-    const transactions = await Transaction.findAll({where});  
+
+    let transactions = await Transaction.findAll({where});  
+    transactions = transactions.map( x => new TransactionDTO(x));
+
     return transactions;
 }
 
@@ -14,11 +18,12 @@ async function getTransactionById(id, userId){
       if(!transaction){
         return null;
     }
-    return result;
+    return new TransactionDTO(transaction);
 }
 
 async function createTransaction(transacationInfo){
-    return await Transaction.create(transacationInfo);
+    const transaction = await Transaction.create(transacationInfo)
+    return new TransactionDTO(transaction);;
 }
 
 async function updateTransaction(id, transactionInfo){
@@ -26,7 +31,8 @@ async function updateTransaction(id, transactionInfo){
     if(!transaction){
         return null;
     }
-    return await transaction.update(transactionInfo)
+    const updatedTransaction = await transaction.update(transactionInfo)
+    return new TransactionDTO(updatedTransaction);
     
 }
 
