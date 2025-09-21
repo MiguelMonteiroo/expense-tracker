@@ -28,7 +28,7 @@ async function updateUserAsync(id, userData) {
     if (!user) {
         return null
     }
-    await user.update({userData});
+    await user.update(userData);
     return  new UserDTO(user);
 
 }
